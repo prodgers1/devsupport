@@ -3,8 +3,13 @@ import { Link } from "@remix-run/react";
 
 export default function Sidebar() {
     return (
-        <Grid item xs={12} sm={3} className="toolbox" height="100vh">
-            <Link to="base64">Base 64 Encoding/Decoding</Link>
+        <Grid container flexDirection="column" xs={12} sm={3} className="toolbox">
+            <Grid item>
+                <Link to="base64">Base 64 Encoding/Decoding</Link>
+            </Grid>
+            <Grid item>
+                <Link to="formatJson">Pretty Print JSON</Link>
+            </Grid>
         </Grid>
     )
 }
