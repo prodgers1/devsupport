@@ -7,11 +7,18 @@ import ClientStyleContext from './src/ClientStyleContext';
 import Layout from './src/Layout';
 import Sidebar from './src/components/Sidebar';
 import Header from './src/components/Header';
+import stylesUrl from "~/styles/Sidebar.css" 
+import type { LinksFunction } from '@remix-run/node';
 
 interface DocumentProps {
   children: React.ReactNode;
   title?: string;
 }
+
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: stylesUrl }];
+};
+
 
 const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCache) => {
   const clientStyleData = React.useContext(ClientStyleContext);
@@ -63,14 +70,22 @@ export default function App() {
   return (
     <Document>
       <Layout>
-        <Grid container>
+        <Grid container style={{marginBottom:'3rem'}}>
           <Header />
         </Grid>
-        <Grid container>
-          <Sidebar />
-          <Grid item xs={12} sm={9} className="toolbox">
-            <Outlet />
-          </Grid>
+        <Grid container
+          spacing={2}>
+            <Grid item xs={12} sm={3}
+              style={{paddingTop: 0}}
+              sx={{
+                display: { xs: 'none', md: 'block' },
+              }}>
+              <Sidebar />
+            </Grid>
+            
+            <Grid item xs={12} sm={9} className="toolbox">
+              <Outlet />
+            </Grid>
         </Grid>
       </Layout>
     </Document>

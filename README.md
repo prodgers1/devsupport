@@ -1,53 +1,19 @@
-# Welcome to Remix!
+# DevSupport
 
-- [Remix Docs](https://remix.run/docs)
+## Description:
 
-## Development
+This project is a collection of tools used frequently by me in my day to day work. There were many times I needed to encode or decode data that included sensitive data, and by pasting that into random websites, I couldn't be sure what they were doing with my data.
 
-From your terminal:
+I am providing all the code to this project to show I am not saving any user's data. All of it stays in the browser so there is no fear when using these tools with sensitive data.
 
-```sh
-npm run dev
-```
+## Technology:
 
-This starts your app in development mode, rebuilding assets on file changes.
+I recently learned about [Remix](https://remix.run/docs), and built this while learning how this framework works. Although this site doesn't utilize a lot of Remix's capabilities, it forced me to read through their docs to gain an understanding of how things are working under the hood.
 
-## Deployment
+# Where can I find it?
 
-First, build your app for production:
+[https://devsupport.app](https://devsupport.app) - Production instance of the app
 
-```sh
-npm run build
-```
+# Development
 
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
-
-### Using a Template
-
-When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
-
-```sh
-cd ..
-# create a new project, and pick a pre-configured host
-npx create-remix@latest
-cd my-new-remix-app
-# remove the new project's app (not the old one!)
-rm -rf app
-# copy your app over
-cp -R ../my-old-remix-app/app app
-```
+I plan to add various tools here as I see fit so I don't need to jump around to various websites to accomplish my tasks. I hope to make this the one stop for all common tools used in development.

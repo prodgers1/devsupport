@@ -19,7 +19,7 @@ export const action = async ({ request }: ActionArgs) => {
     JSON.parse(str)
   }
   catch (ex) {
-    return badRequest("String was not in proper JSON format")
+    return badRequest(`Invalid JSON: ${ex}`)
   }
 
   return JSON.stringify(JSON.parse(str), null, 2);

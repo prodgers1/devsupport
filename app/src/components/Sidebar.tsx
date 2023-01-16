@@ -3,16 +3,19 @@ import { Link } from "@remix-run/react";
 
 export default function Sidebar() {
     return (
-        <Grid container item flexDirection="column" xs={12} sm={3} className="toolbox">
-            <Grid item>
-                <Link to="base64">Base 64 Encoding/Decoding</Link>
-            </Grid>
-            <Grid item>
-                <Link to="formatJson">Pretty Print JSON</Link>
-            </Grid>
-            <Grid item>
-                <Link to="jwtDecode">JWT Decode</Link>
-            </Grid>
+        <Grid container item flexDirection="column" xs={12} sm={3} className="sidebar" style={{ 'marginTop' : '16px'}}>
+            {pages.map(page => (
+                <Grid item key={page.link}>
+                    <Link className="link" to={page.link}>{page.title}</Link>
+                </Grid>
+            ))}
         </Grid>
     )
 }
+
+export let pages = [
+    { link: 'base64', title: 'Base 64' },
+    { link: 'formatJson', title: 'Format JSON' },
+    { link: 'formatSql', title: 'Format SQL' },
+    { link: 'jwtDecode', title: 'JWT Decode' },
+]

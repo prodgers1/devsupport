@@ -3,6 +3,7 @@ import { TextField, Grid, Button } from '@mui/material';
 import type { ActionArgs } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { badRequest } from '~/utils/request.server';
+import { format } from 'sql-formatter';
 
 export const action = async ({ request }: ActionArgs) => {
   const queryString = await request.text();
@@ -13,35 +14,35 @@ export const action = async ({ request }: ActionArgs) => {
     body[key] = value;
   });
 
-  if (!('content' in body) || !('type' in body)) {
-    return badRequest({
-      fieldErrors: null,
-      fields: null,
-      formError: `Form not submitted correctly.`,
-    });
-  }
-
   const str = body['content'];
-  const buttonPressed = body['type'];
 
-  let result = '';
-  if (buttonPressed.toLowerCase() === 'encode') {
-    let encodeBuffer = Buffer.from(str);
-    result = encodeBuffer.toString('base64');
-  } else if (buttonPressed.toLowerCase() === 'decode') {
-    let decodeBuffer = Buffer.from(str, 'base64');
-    result = decodeBuffer.toString('ascii');
+  let formatted = ""
+  try {
+    formatted = format(str,
+      {
+        language: 'sql',
+        tabWidth: 2,
+        keywordCase: 'upper',
+        linesBetweenQueries: 2
+      })
+  }
+  catch (ex) {
+    console.error(ex)
+    return badRequest(`Error formatting sql query: ${ex}`)
   }
 
-  return result;
+  return formatted;
 };
 
-export default function Base64() {
+export default function FormatSql() {
   const actionData = useActionData<typeof action>();
 
   return (
     <React.Fragment>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+            Place a semicolon <code>;</code> after each SQL statement to put new lines between statements
+        </Grid>
         <Grid item xs={12}>
           <Form method="post">
             <Grid container spacing={2}>
@@ -52,19 +53,14 @@ export default function Base64() {
                   id="content"
                   multiline
                   rows={10}
-                  placeholder="Enter string to base 64 encode or decode"
+                  placeholder="Enter SQL to format"
                 />
               </Grid>
               <Grid item>
                 <Grid container spacing={2}>
                   <Grid item>
-                    <Button variant="contained" name="type" type="submit" value="encode">
-                      Encode
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" name="type" type="submit" value="decode">
-                      Decode
+                    <Button variant="contained" name="format" type="submit" value="Format">
+                      Format
                     </Button>
                   </Grid>
                 </Grid>
