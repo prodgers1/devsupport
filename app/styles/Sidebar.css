@@ -32,3 +32,12 @@ a.link {
   text-decoration: none;
 }
 
+a.githubLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.githubLink:visited {
+  text-decoration: none;
+  color: inherit;
+}
