@@ -1,11 +1,12 @@
 import React from 'react';
 import { Grid, Button } from '@mui/material';
-import type { ActionArgs } from '@remix-run/node';
+import type { ActionArgs} from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { badRequest } from '~/utils/request.server';
-import jwtDecode from "jwt-decode"
-import InputGrid from '~/src/components/InputGrid';
+import { keccak256 } from '@ethersproject/keccak256'
+import { toUtf8Bytes } from "@ethersproject/strings";
 import OutputGrid from '~/src/components/OutputGrid';
+import InputGrid from '~/src/components/InputGrid';
 
 export const action = async ({ request }: ActionArgs) => {
   const queryString = await request.text();
@@ -17,20 +18,20 @@ export const action = async ({ request }: ActionArgs) => {
   });
 
   const str = body['content'];
+  let keccak256Hash = ""
 
-  let decoded = ""
   try {
-    decoded = jwtDecode(str)
+    keccak256Hash = keccak256(toUtf8Bytes(str))
   }
   catch (ex) {
     console.error(ex)
-    return badRequest("Error decoding JWT")
+    return badRequest("Error converting input to keccak256 hash")
   }
 
-  return JSON.stringify(decoded, null, 2);
+  return keccak256Hash.substring(2) // don't output 0x prefix
 };
 
-export default function JwtDecode() {
+export default function Keccak256() {
   const actionData = useActionData<typeof action>();
 
   return (
@@ -39,13 +40,13 @@ export default function JwtDecode() {
         <Grid item xs={12}>
           <Form method="post">
             <Grid container spacing={2}>
-              <InputGrid placeholderText="Enter JWT to decode" />
+              <InputGrid placeholderText="Enter text to hash" />
 
               <Grid item>
                 <Grid container spacing={2}>
                   <Grid item>
-                    <Button variant="contained" name="format" type="submit" value="decode">
-                      Decode
+                    <Button variant="contained" name="hash" type="submit" value="hash">
+                      Hash
                     </Button>
                   </Grid>
                 </Grid>

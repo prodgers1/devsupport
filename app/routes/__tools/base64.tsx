@@ -1,8 +1,10 @@
 import React from 'react';
-import { TextField, Grid, Button } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import type { ActionArgs } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import { badRequest } from '~/utils/request.server';
+import InputGrid from '~/src/components/InputGrid';
+import OutputGrid from '~/src/components/OutputGrid';
 
 export const action = async ({ request }: ActionArgs) => {
   const queryString = await request.text();
@@ -45,16 +47,8 @@ export default function Base64() {
         <Grid item xs={12}>
           <Form method="post">
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  name="content"
-                  fullWidth
-                  id="content"
-                  multiline
-                  rows={10}
-                  placeholder="Enter string to base 64 encode or decode"
-                />
-              </Grid>
+              <InputGrid placeholderText="Enter string to base 64 encode or decode" />
+
               <Grid item>
                 <Grid container spacing={2}>
                   <Grid item>
@@ -73,9 +67,7 @@ export default function Base64() {
           </Form>
         </Grid>
         {actionData != undefined && (
-          <Grid item xs={12}>
-            <TextField fullWidth id="content-result" multiline rows={10} value={actionData} />
-          </Grid>
+          <OutputGrid actionData={actionData} />
         )}
       </Grid>
     </React.Fragment>

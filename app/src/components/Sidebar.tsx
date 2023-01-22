@@ -18,4 +18,5 @@ export let pages = [
     { link: 'formatJson', title: 'Format JSON' },
     { link: 'formatSql', title: 'Format SQL' },
     { link: 'jwtDecode', title: 'JWT Decode' },
+    { link: 'keccak256', title: "Keccak-256 Hash"}
 ]
